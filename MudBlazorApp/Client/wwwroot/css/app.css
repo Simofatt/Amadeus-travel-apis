@@ -1,0 +1,21 @@
+﻿.mud-dialog-title {
+    background: #363062 !important;
+    color: white !important;
+    padding: 10px 16px !important;
+    font-size: x-large;
+}
+
+.mud-dialog-actions {
+    border-top: #363062 3px solid;
+}
+
+.mud-container {
+    padding: 0px
+}
+
+.mud-dialog .mud-dialog-title .mud-button-root {
+    top: 4px;
+    right: 8px;
+    position: absolute;
+    color: white;
+}
