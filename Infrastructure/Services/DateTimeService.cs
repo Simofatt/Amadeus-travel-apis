@@ -12,5 +12,6 @@ namespace Infrastructure.Services
     {
       
         public DateTime NowUtc() => DateTime.UtcNow; 
+            
     }
 }

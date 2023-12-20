@@ -2,17 +2,14 @@
 using Application.Interfaces.Repositories;
 using AutoMapper;
 using Infrastructure;
-
 using Infrastructure.Context;
 using Infrastructure.MappingProfiles;
-
 using Infrastructure.Repositories;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using MudBlazor.Services;
 using System.Security.Cryptography;
-using Infrastructure.MappingProfiles;
 using Application.Interfaces.Services;
 using System;
 using System.Net.WebSockets;
@@ -37,6 +34,12 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddAutoMapper(typeof(MappingProfiles));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+//building travel api service 
+builder.Services.AddHttpClient("TravelApiService", client => {
+    client.BaseAddress = new Uri("https://test.api.amadeus.com");
+});
+builder.Services.AddScoped<ITravelApiService,TravelApiService>();
 
 
 var app = builder.Build();
