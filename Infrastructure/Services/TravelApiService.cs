@@ -55,41 +55,40 @@ namespace Infrastructure.Services
 
        public async Task<Result<TravelSearchResponse>> GetTravels(string origin, string DateAller, string? DateRetour, string destination, int adults, int childreen, string nonStop, string travelClass)
        {
-            if (DateRetour == null)
-            {
-                _preparedUrl = $"/v2/shopping/flight-offers?originLocationCode={origin}&destinationLocationCode={destination}&departureDate={DateAller}&adults={adults}&children={childreen}&travelClass={travelClass}&nonStop={nonStop}&max=250";
-            }
-            else
-            {
-                _preparedUrl = $"/v2/shopping/flight-offers?originLocationCode={origin}&destinationLocationCode={destination}&departureDate={DateAller}&returnDate={DateRetour}&adults={adults}&children={childreen}&travelClass={travelClass}&nonStop={nonStop}&max=250";
+            if (DateRetour == null)  _preparedUrl = $"/v2/shopping/flight-offers?originLocationCode={origin}&destinationLocationCode={destination}&departureDate={DateAller}&adults={adults}&children={childreen}&travelClass={travelClass}&nonStop={nonStop}&max=250";
+            
+            else  _preparedUrl = $"/v2/shopping/flight-offers?originLocationCode={origin}&destinationLocationCode={destination}&departureDate={DateAller}&returnDate={DateRetour}&adults={adults}&children={childreen}&travelClass={travelClass}&nonStop={nonStop}&max=250";
 
-            }
             // var message = new HttpRequestMessage(HttpMethod.Get, "/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=BCN&departureDate=2023-12-22&returnDate=2023-12-24&adults=1&children=1&travelClass=ECONOMY&nonStop=false&max=250");
             var message = new HttpRequestMessage(HttpMethod.Get, _preparedUrl);
             ConfigBearerTokenHeader();
 
-        var response = await http.SendAsync(message);
+            var response = await http.SendAsync(message);
+           
 
-        if (response.IsSuccessStatusCode)
-        {
-                  var responseBody = await response.Content.ReadAsStringAsync(); 
-            try{
-                var flightOffers = Newtonsoft.Json.JsonConvert.DeserializeObject<TravelSearchResponse>(responseBody);
-                return await Result<TravelSearchResponse>.SuccessAsync(flightOffers);
-            }
-            catch (JsonException ex)
+            if (response.IsSuccessStatusCode)
             {
-                return await Result<TravelSearchResponse>.FailAsync("Error deserializing JSON");
+                 var responseBody = await response.Content.ReadAsStringAsync(); 
+                
+                    try 
+                    {
+                        var flightOffers = Newtonsoft.Json.JsonConvert.DeserializeObject<TravelSearchResponse>(responseBody);
+                        return await Result<TravelSearchResponse>.SuccessAsync(flightOffers);
+                    }
+                    catch (JsonException ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                        return await Result<TravelSearchResponse>.FailAsync("Error deserializing JSON");
+                    }
             }
-        }
-        else
-        {
-            return await Result<TravelSearchResponse>.FailAsync("Error fetching the data");
-        }
+            else
+            {
+                return await Result<TravelSearchResponse>.FailAsync(response.ReasonPhrase);
+            }
     }
 
 
-       private void ConfigBearerTokenHeader()
+       public void ConfigBearerTokenHeader()
        {
             http.DefaultRequestHeaders.Add("Authorization", $"Bearer {_bearerToken}");
        }

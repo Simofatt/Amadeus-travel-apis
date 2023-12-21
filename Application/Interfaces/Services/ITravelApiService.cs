@@ -12,5 +12,6 @@ namespace Application.Interfaces.Services
     {
         Task<Result<string>> ConnectOAuth();
         Task<Result<TravelSearchResponse>> GetTravels(string origin, string DateAller, string? DateRetour, string destination, int adults, int childreen, string nonStop, string travelClass);
+        void ConfigBearerTokenHeader();
     }
 }

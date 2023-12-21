@@ -40,7 +40,7 @@ builder.Services.AddHttpClient("TravelApiService", client => {
     client.BaseAddress = new Uri("https://test.api.amadeus.com");
 });
 builder.Services.AddScoped<ITravelApiService,TravelApiService>();
-
+builder.Services.AddScoped<IIataCodeService,IataCodeService>();
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.
