@@ -19,14 +19,14 @@ namespace MudBlazorApp.Server.Controllers
 
 
 
-        [HttpGet]
-       public async Task<Result<TravelSearchResponse>> GetTravels(string origin, string DateAller, string DateRetour, string destination, int adults, int childreen, bool nonStop, string travelClass)
+        [HttpGet(nameof(GetTravels))]
+       public async Task<Result<TravelSearchResponse>> GetTravels(string origin, string DateAller, string? DateRetour, string destination, int adults, int childreen, string nonStop, string travelClass)
         {
              await _travelApiService.ConnectOAuth();
             return await _travelApiService.GetTravels(origin,DateAller, DateRetour, destination, adults, childreen, nonStop, travelClass);
         }
 
-        [HttpPost] 
+        [HttpPost(nameof(GetToken))] 
         public async Task<Result<string>> GetToken()
         {
             return await _travelApiService.ConnectOAuth();

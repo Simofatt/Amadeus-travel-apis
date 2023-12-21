@@ -7,6 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="DataModels\**" />
+    <Compile Remove="Requests\Watson\**" />
+    <EmbeddedResource Remove="DataModels\**" />
+    <EmbeddedResource Remove="Requests\Watson\**" />
+    <None Remove="DataModels\**" />
+    <None Remove="Requests\Watson\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FluentValidation" Version="11.6.0" />
     <PackageReference Include="MudBlazor" Version="6.7.0" />
   </ItemGroup>
@@ -16,8 +25,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DataModels\" />
-    <Folder Include="Requests\Watson\" />
     <Folder Include="Validators\" />
   </ItemGroup>
 </Project>

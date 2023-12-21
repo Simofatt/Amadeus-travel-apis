@@ -11,6 +11,6 @@ namespace Application.Interfaces.Services
      public interface  ITravelApiService
     {
         Task<Result<string>> ConnectOAuth();
-        Task<Result<TravelSearchResponse>> GetTravels(string origin, string DateAller, string DateRetour, string destination, int adults, int childreen, bool nonStop, string travelClass);
+        Task<Result<TravelSearchResponse>> GetTravels(string origin, string DateAller, string? DateRetour, string destination, int adults, int childreen, string nonStop, string travelClass);
     }
 }
