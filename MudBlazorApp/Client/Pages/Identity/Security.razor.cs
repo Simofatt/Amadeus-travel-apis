@@ -32,7 +32,7 @@ namespace MudBlazorApp.Client.Pages.Identity
         }
         void SaveChanges(string message, Severity severity)
         {
-            Snackbar.Add(message, severity, config =>
+           _snackbar.Add(message, severity, config =>
             {
                 config.ShowCloseIcon = false;
             });

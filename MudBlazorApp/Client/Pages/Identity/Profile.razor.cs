@@ -54,7 +54,7 @@ namespace MudBlazorApp.Client.Pages.Identity
         }
         void SaveChanges(string message, Severity severity)
         {
-            Snackbar.Add(message, severity, config =>
+            _snackbar.Add(message, severity, config =>
             {
                 config.ShowCloseIcon = false;
             });
@@ -79,10 +79,10 @@ namespace MudBlazorApp.Client.Pages.Identity
         {
             try
             {
-                var currentCulture = await LocalStorage.GetItemAsync<string>("culture");
+                var currentCulture = await _localStorage.GetItemAsync<string>("culture");
                 if (currentCulture != null && !currentCulture.Equals(value))
                 {
-                    await LocalStorage.SetItemAsync<string>("culture", value);
+                    await _localStorage.SetItemAsync<string>("culture", value);
                     await InvokeAsync(() => StateHasChanged());
                     _navigationManager.NavigateTo(_navigationManager.Uri, forceLoad: true);
                 }

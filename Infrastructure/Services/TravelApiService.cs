@@ -53,11 +53,11 @@ namespace Infrastructure.Services
 
 
 
-       public async Task<Result<TravelSearchResponse>> GetTravels(string origin, string DateAller, string? DateRetour, string destination, int adults, int childreen, string nonStop, string travelClass)
+       public async Task<Result<TravelSearchResponse>> GetTravels(TravelRequest _travelRequest)
        {
-            if (DateRetour == null)  _preparedUrl = $"/v2/shopping/flight-offers?originLocationCode={origin}&destinationLocationCode={destination}&departureDate={DateAller}&adults={adults}&children={childreen}&travelClass={travelClass}&nonStop={nonStop}&max=250";
+            if (_travelRequest.DateRetour == null)  _preparedUrl = $"/v2/shopping/flight-offers?originLocationCode={_travelRequest.Origin}&destinationLocationCode={_travelRequest.Destination}&departureDate={_travelRequest.DateAller}&adults={_travelRequest.Adults}&children={_travelRequest.Childreen}&travelClass={_travelRequest.TravelClass}&nonStop={_travelRequest.NonStop}&max=250";
             
-            else  _preparedUrl = $"/v2/shopping/flight-offers?originLocationCode={origin}&destinationLocationCode={destination}&departureDate={DateAller}&returnDate={DateRetour}&adults={adults}&children={childreen}&travelClass={travelClass}&nonStop={nonStop}&max=250";
+            else  _preparedUrl = $"/v2/shopping/flight-offers?originLocationCode={_travelRequest.Origin}&destinationLocationCode={_travelRequest.Destination}&departureDate={_travelRequest.DateAller}&returnDate={_travelRequest.DateRetour}&adults={_travelRequest.Adults}&children={_travelRequest.Childreen}&travelClass={_travelRequest.TravelClass}&nonStop={_travelRequest.NonStop}&max=250";
 
             // var message = new HttpRequestMessage(HttpMethod.Get, "/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=BCN&departureDate=2023-12-22&returnDate=2023-12-24&adults=1&children=1&travelClass=ECONOMY&nonStop=false&max=250");
             var message = new HttpRequestMessage(HttpMethod.Get, _preparedUrl);

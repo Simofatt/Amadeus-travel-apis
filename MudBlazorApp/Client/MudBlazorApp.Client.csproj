@@ -15,14 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Pages\Flights\SearchFlight.razor.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="Pages\Flights\SearchFlight.razor.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Blazored.FluentValidation" Version="2.1.0" />
     <PackageReference Include="Blazored.LocalStorage" Version="4.4.0" />
     <PackageReference Include="H.Recorders.WinmmRecorder" Version="0.20.8" />

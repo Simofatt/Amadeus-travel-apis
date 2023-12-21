@@ -1,5 +1,171 @@
-﻿<h3>SearchFlight</h3>
+﻿@page "/search-flight"
+@using MudBlazorApp.Shared.Response; 
 
-@code {
 
+<style>
+    .mud-table-container {
+        overflow: auto;
+    }
+
+    .container {
+        margin-left: 20px;
+        /* padding-left:50px;*/
+    }
+</style>
+
+@if (!_loaded)
+{
+    <MudProgressCircular Color="Color.Primary" Indeterminate="true" />
+}
+else
+{
+
+
+    
+        <EditForm Class="container" Model="@_travelRequest" OnValidSubmit="SubmitAsync">
+            <FluentValidationValidator @ref="_fluentValidationValidator" />
+      
+    <MudGrid>
+        <MudItem xs="12">
+            <div class="d-flex justify-center">
+                @* <MudIcon Icon="@CustomIcons.Uni" Color="Color.Primary" Size="Size.Large" ViewBox="0 0 500 500" Style="width: 100px; height: 100px;" />*@
+            </div>
+        </MudItem>
+        <MudItem xs="12">
+            <div class="d-flex justify-center">
+                <MudText Typo="Typo.h4">@_l["Search for a Flight"]</MudText>
+            </div>
+        </MudItem>
+
+
+
+      
+
+            <MudSelect Dense=true Variant="Variant.Text" Style="width: 25vh;" Label="@_l["Pays de départ"]" T="string" Value="_travelRequest.OriginCountry" ValueChanged="SelectedOriginCountryChanged">
+                @foreach (var item in _countries)
+                {
+                    <MudSelectItem Value="@item.Name" T="string">@item.Name</MudSelectItem>
+                }
+            </MudSelect>
+            <MudSelect For="@(() => _travelRequest.Origin)" Dense=true Style="width: 25vh;" Variant="Variant.Text" Label="@_l["Ville de départ"]" T="string" @bind-Value="_travelRequest.Origin">
+                @foreach (var item in _cities)
+                {
+                    <MudSelectItem T="string" Value="@item">@item</MudSelectItem>
+                }
+            </MudSelect>
+
+
+            <MudSelect Dense=true Variant="Variant.Text" Style="width: 25vh;" Label="@_l["Pays de retour"]" T="string" Value="_travelRequest.DestinationCountry" ValueChanged="SelectedDestinationCountryChanged">
+                @foreach (var item in _countries)
+                {
+                    <MudSelectItem Value="@item.Name" T="string">@item.Name</MudSelectItem>
+                }
+            </MudSelect>
+            <MudSelect For="@(() => _travelRequest.Destination)" Dense=true Style="width: 25vh;" Variant="Variant.Text" Label="@_l["Ville de retour"]" T="string" @bind-Value="_travelRequest.Destination">
+                @foreach (var item in _cities)
+                {
+                    <MudSelectItem T="string" Value="@item">@item</MudSelectItem>
+                }
+            </MudSelect>
+
+
+        <MudItem xs="12" md="6">
+                <MudDatePicker For="@(() =>_travelRequest.DateAller)" Editable=true @bind-Date="@_travelRequest.DateAller" Style="width: 30vh;" Variant="Variant.Outlined" Label="@_l["Date Aller"]" />
+        </MudItem>
+        <MudItem xs="12" md="6">
+            <MudDatePicker For="@(() =>_travelRequest.DateRetour)" Editable=true @bind-Date="@_travelRequest.DateRetour" Style="width: 30vh;" Variant="Variant.Outlined" Label="@_l["Date Retour"]" />
+        </MudItem>
+
+                <MudItem xs="12">
+                    <MudSelect For="@(() =>_travelRequest.TravelClass)" @bind-Value="@_travelRequest.TravelClass" Dense=true Style="width: 39vh" Label="@_l["Type de classe"]" T="string">
+                        @foreach (var item in _travelClass)
+                    {
+                        <MudSelectItem Style="width: 25vh" Value="@item" T="string">@item</MudSelectItem>
+                    }
+                </MudSelect>
+            </MudItem>
+
+            <MudItem xs="12" md="6">
+                <MudNumericField For="@(() =>_travelRequest.Adults)" @bind-Int="@_travelRequest.Adults" Style="width: 30vh;" Label="@_l[" Nombre de personnes"]" Variant="Variant.Outlined" Min="0" Max="10" />
+            </MudItem>
+            <MudItem xs="12" md="6">
+                <MudNumericField @bind-Int="@_travelRequest.Childreen" Style="width: 30vh;" Label="@_l["Nombre d'enfant"]" Variant="Variant.Outlined" Min="0" Max="10" />
+            </MudItem>
+        <MudItem  xs="12" Class="d-flex justify-center">
+            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Disabled="@(!Validated)" Color="Color.Primary" Size="Size.Large" Style="width: 100%;">@_l["Search"]</MudButton>
+        </MudItem>
+    </MudGrid>
+</EditForm>
+
+
+
+
+    <MudTable Hover="true" Elevation="25" Items="_travelList" Dense="@_dense" Filter="new Func<FlightOffer, bool>(Search)" Bordered="@_bordered" Striped="@_striped" @bind-Value="flightOfferRequest">
+        <ToolBarContent>
+            <div class="justify-center mud-text-align-center">
+               
+                   
+                    <MudButton DisableElevation Variant="Variant.Filled" OnClick="GetFlightsAsync" StartIcon="@Icons.Material.Filled.Refresh" IconColor="Color.Surface" Color="Color.Secondary">@_l["Reload"]</MudButton>
+            </div>
+            <MudSpacer />
+           
+                <MudTextField @bind-Value="_searchString" Immediate="true" FullWidth=false Placeholder="@_l["Search For Flights"]" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0 mb-3"></MudTextField>
+            
+        </ToolBarContent>
+        <HeaderContent>
+
+                <MudTh><MudTableSortLabel SortBy="new Func<Segment, object>(x => x.Departure)">@_l["Departure"]</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<Segment, object>(x => x.Arrival)">@_l["Arrival"]</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<Itinerary, object>(x => x.Duration)">@_l["Duration"]</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<Price, object>(x => x.Total)">@_l["Total Price"]</MudTableSortLabel></MudTh>
+       
+            <MudTh Style="text-align:right">@_l["Actions"]</MudTh>
+        </HeaderContent>
+
+
+        <RowTemplate>
+                <MudTd DataLabel="Duration">
+                    @foreach (var itinerary in context.Itineraries)
+                        {
+                            <MudHighlighter Text="@itinerary.Duration" HighlightedText="@_searchString" />
+                        }
+            </MudTd>
+            <MudTd DataLabel="Departure">
+
+                @foreach(var itinerary in context.Itineraries) 
+                    @foreach (var segments in itinerary.Segments)
+                    {
+
+                    <MudHighlighter Text="@segments.Departure.IataCode" HighlightedText="@_searchString" />
+                    }
+                }
+            </MudTd>
+
+            <MudTd DataLabel="Arrival">
+                @foreach (var itinerary in context.Itineraries)
+                    @foreach (var segments in itinerary.Segments)
+                    {
+
+                        <MudHighlighter Text="@segments.Arrival.IataCode" HighlightedText="@_searchString" />
+                    }
+                }
+            </MudTd>
+            <MudTd DataLabel="Total Price">
+               
+            </MudTd>
+     
+            <MudTd DataLabel="Actions" Style="text-align:right">
+                <MudMenu Label="@_l["Actions"]" Variant="Variant.Filled" DisableElevation="true" EndIcon="@Icons.Filled.KeyboardArrowDown" IconColor="Color.Secondary" Direction="Direction.Left" OffsetX="true">
+                    <MudMenuItem OnClick="(()=>ViewInformations(context.Id))">@_l["View Information"]</MudMenuItem>
+                   
+                        <MudMenuItem OnClick="(()=>ReserveFlight(context.Id))">@_l["Reserve the flight"]</MudMenuItem>
+                        
+                </MudMenu>
+            </MudTd>
+        </RowTemplate>
+        
+        <PagerContent>
+            <TablePager />
+        </PagerContent>
+    </MudTable>
 }

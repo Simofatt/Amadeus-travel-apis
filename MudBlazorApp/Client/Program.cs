@@ -64,6 +64,8 @@ builder.Services
                    // options.RequestCultureProviders.Remove((IRequestCultureProvider)typeof(AcceptLanguageHeaderRequestCultureProvider));     // i want the user to change their culture not via http headers
                });
 builder.Services.AddBlazoredLocalStorage();
+builder.Services.AddScoped<ITravelApiClient, TravelApiClient>();
+builder.Services.AddScoped<IIataCodeClient, IataCodeClient>();
 
 
 
