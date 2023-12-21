@@ -8,8 +8,13 @@
 
 	<ItemGroup>
 
-		<PackageReference Include="MudBlazor" Version="6.1.4" />
+		<PackageReference Include="MudBlazor" Version="6.7.0" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 	
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\MudBlazorApp\Shared\MudBlazorApp.Shared.csproj" />
 	</ItemGroup>
 
 </Project>
