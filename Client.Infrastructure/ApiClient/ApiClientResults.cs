@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
-
+using MudBlazorApp.Shared.Response;
 using Synaplic.UniRH.Shared.Wrapper;
 
 
@@ -17,8 +17,11 @@ namespace Synaplic.UniRH.Client.Infrastructure.ApiClients
     public class IntResult : Result<int> { }
     public class Int32Result : Result<int> { }
     public class StringListResult : Result<List<string>> { }
+    public class TravelSearchResponseResult : Result<TravelSearchResponse> { }
 
-    
+
+
+
 
 
     public class File
