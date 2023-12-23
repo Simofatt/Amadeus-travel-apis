@@ -20,6 +20,7 @@ namespace MudBlazorApp.Client.Pages.Flights.Component
         private List<Itinerary> _itineraries = new();
         private List<Segment> _segmentList = new();
         private List<TravelerPricing> _travelPricings = new();
+        private bool _search  =true ;
 
 
 
@@ -33,6 +34,7 @@ namespace MudBlazorApp.Client.Pages.Flights.Component
 
         public async Task SubmitAsync()
         {
+            _search = false;
             var result = await GetIataCityCodeAsync();
 
             if (result)
@@ -41,6 +43,7 @@ namespace MudBlazorApp.Client.Pages.Flights.Component
                var success=  await GetFlightsAsync();
                 if (success)
                 {
+                    _search = true;
                     await InvokeModal();
                 }
             }
@@ -56,7 +59,7 @@ namespace MudBlazorApp.Client.Pages.Flights.Component
             parameters.Add("_itineraries", _itineraries);
             parameters.Add("_segmentList", _segmentList);
             parameters.Add("_travelPricings", _travelPricings);
-            var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true, DisableBackdropClick = true };
+            var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true, DisableBackdropClick = false };
             var dialog = _dialogService.Show<SearchFlight>(_l["Search for a flight"], parameters, options);
             var result = await dialog.Result;
             if (!result.Cancelled)
@@ -90,9 +93,11 @@ namespace MudBlazorApp.Client.Pages.Flights.Component
                         _travelPricings.Add(pricing);
                     }
                    
+
                 }
+
                 return true;
-               
+
             }
             else
             {

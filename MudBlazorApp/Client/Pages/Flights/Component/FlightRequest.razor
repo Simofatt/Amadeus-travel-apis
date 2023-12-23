@@ -5,7 +5,7 @@
 <style>
   
     .mud-paper {
-        width: 126%;
+        width: 107%;
     }
 
     /*TO STYLE THE BUTTONS */
@@ -69,7 +69,7 @@
                         <MudText Color="Color.Info" Style="margin-top: 10px" Typo="Typo.subtitle1">@_l["Information de départ"]</MudText>
                         <MudDivider></MudDivider>
 
-                        <MudStack Style="margin-top: 20px;width: 83vh;margin-left: 35px;" Row=true Justify="Justify.FlexStart" Spacing="11" AlignItems="AlignItems.Center">
+                        <MudStack Style="margin-top: 40px;width: 83vh;margin-left: 35px;" Row=true Justify="Justify.FlexStart" Spacing="11" AlignItems="AlignItems.Center">
                             <MudSelect Style="width: 38vh;" Dense=true Variant="Variant.Text" Label="@_l["Pays de départ"]" T="string" Value="_travelRequest.OriginCountry" ValueChanged="SelectedOriginCountryChanged">
                                 @foreach (var item in _countries)
                             {
@@ -105,18 +105,18 @@
 
                     @*DATES    <MudText Color="Color.Info" Style="margin-top: 20px" Typo="Typo.subtitle1">@_l["Selection de Dates"]</MudText>*@
 
-                    <MudStack Style="margin-top: 20px; width: 80vh;margin-left:35px;" Row=true Justify="Justify.FlexStart" Spacing="10" AlignItems="AlignItems.Center">
+                    <MudStack Style="margin-top: 20px; width: 80vh;margin-left:35px;" Row=true Justify="Justify.FlexStart" Spacing="11" AlignItems="AlignItems.Center">
                             <MudItem xs="12" md="6">
-                                <MudDatePicker For="@(() =>_travelRequest.DateAller)" Editable=true @bind-Date="@_travelRequest.DateAller" Style="width: 40vh;" Variant="Variant.Outlined" Label="@_l["Date Aller"]" />
+                                <MudDatePicker For="@(() =>_travelRequest.DateAller)" Editable=true @bind-Date="@_travelRequest.DateAller" Style="width: 38vh;" Variant="Variant.Outlined" Label="@_l["Date Aller"]" />
                             </MudItem>
                             <MudItem xs="12" md="6">
-                                <MudDatePicker For="@(() =>_travelRequest.DateRetour)" Editable=true @bind-Date="@_travelRequest.DateRetour" Style="width: 40vh;" Variant="Variant.Outlined" Label="@_l["Date Retour"]" />
+                                <MudDatePicker For="@(() =>_travelRequest.DateRetour)" Editable=true @bind-Date="@_travelRequest.DateRetour" Style="width: 38vh;" Variant="Variant.Outlined" Label="@_l["Date Retour"]" />
                             </MudItem>
                         </MudStack>
 
 
                     @*Nombre de personnes*@
-                   <MudStack Style="margin-top: 20px; width: 80vh;margin-left:35px;" Row=true Justify="Justify.FlexStart" Spacing="10" AlignItems="AlignItems.Center">
+                   <MudStack Style="margin-top: 20px; width: 80vh;margin-left:35px;" Row=true Justify="Justify.FlexStart" Spacing="11" AlignItems="AlignItems.Center">
                     <MudItem xs="12" md="6">
                             <MudNumericField For="@(() =>_travelRequest.Adults)" @bind-Value="@_travelRequest.Adults" Style="width: 38vh;"  Label="@_l[" Nombre de personnes"]" Variant="Variant.Outlined" Min="0" Max="10" />
                     </MudItem>
@@ -145,7 +145,12 @@
                    
                  
                     <MudItem xs="12" Class="d-flex justify-center">
-                        <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Disabled="@(!Validated)" Color="Color.Primary" Size="Size.Large" Style="width: 100%;">@_l["Search"]</MudButton>
+                        @if (!_search)
+                        {
+                            <MudProgressCircular Color="Color.Primary" Indeterminate="true" />
+                        }else {
+                            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Disabled="@(!Validated)" Color="Color.Primary" Size="Size.Large" Style="width: 100%; margin-top:70px;">@_l["Search"]</MudButton>
+                        }
                         </MudItem>
                     </MudGrid>
                 </EditForm>

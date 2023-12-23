@@ -1,14 +1,10 @@
 ﻿@page "/listFlight"
-@using MudBlazorApp.Shared.Response; 
-
+@using MudBlazorApp.Shared.Response
 
 <style>
     .mud-table-container {
         overflow: auto;
     }
-
- 
-    
 </style>
 
 @if (!_loaded)
@@ -17,75 +13,51 @@
 }
 else
 {
-
-
-   
-
-
-
-
-    <MudTable Hover="true" Elevation="25" Items="_travelList" Dense="@_dense" Filter="new Func<FlightOffer, bool>(Search)" Bordered="@_bordered" Striped="@_striped" @bind-Value="flightOfferRequest">
+    <MudTable Hover="true" Elevation="25" Items="_travelListDTO" Dense="@_dense" Filter="new Func<TravelListDTO, bool>(Search)" Bordered="@_bordered" Striped="@_striped" @bind-Value="flightOfferRequest">
         <ToolBarContent>
-           
             <MudSpacer />
-           
-                <MudTextField @bind-Value="_searchString" Immediate="true" FullWidth=false Placeholder="@_l["List of Flights"]" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0 mb-3"></MudTextField>
-            
+            <MudTextField @bind-Value="_searchString" Immediate="true" FullWidth="false" Placeholder="@_l["List of Flights"]" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0 mb-3"></MudTextField>
         </ToolBarContent>
         <HeaderContent>
-
-                <MudTh><MudTableSortLabel SortBy="new Func<Segment, object>(x => x.Departure)">@_l["Departure"]</MudTableSortLabel></MudTh>
-                <MudTh><MudTableSortLabel SortBy="new Func<Segment, object>(x => x.Arrival)">@_l["Arrival"]</MudTableSortLabel></MudTh>
-                <MudTh><MudTableSortLabel SortBy="new Func<Itinerary, object>(x => x.Duration)">@_l["Duration"]</MudTableSortLabel></MudTh>
-                <MudTh><MudTableSortLabel SortBy="new Func<Price, object>(x => x.Total)">@_l["Total Price"]</MudTableSortLabel></MudTh>
-       
+            <MudTh><MudTableSortLabel SortBy="new Func<TravelListDTO, object>(x => x.Departure)">@_l["Departure"]</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<TravelListDTO, object>(x => x.Arrival)">@_l["Arrival"]</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<TravelListDTO, object>(x => x.Duration)">@_l["Departure at"]</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<TravelListDTO, object>(x => x.Duration)">@_l["Arrival at"]</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<TravelListDTO, object>(x => x.Duration)">@_l["Duration"]</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<TravelListDTO, object>(x => x.TotalPrice)">@_l["Total Price"]</MudTableSortLabel></MudTh>
             <MudTh Style="text-align:right">@_l["Actions"]</MudTh>
         </HeaderContent>
+            <RowTemplate>
 
-
-        <RowTemplate>
+                <MudTd DataLabel="Departure">
+                    <MudHighlighter Text="@context.Departure" HighlightedText="@_searchString" />
+                </MudTd>
+                <MudTd DataLabel="Arrival">
+                    <MudHighlighter Text="@context.Arrival" HighlightedText="@_searchString" />
+                </MudTd>
+                <MudTd DataLabel="Departure At">
+                    <MudHighlighter Text="@context.DepartureAt" HighlightedText="@_searchString" />
+                </MudTd>
+                <MudTd DataLabel="Arrival at">
+                    <MudHighlighter Text="@context.ArrivalAt" HighlightedText="@_searchString" />
+                </MudTd>
                 <MudTd DataLabel="Duration">
-                    @foreach (var itinerary in context.Itineraries)
-                        {
-                            <MudHighlighter Text="@itinerary.Duration" HighlightedText="@_searchString" />
-                        }
-            </MudTd>
-            <MudTd DataLabel="Departure">
-
-                @foreach(var itinerary in context.Itineraries) 
-                    @foreach (var segments in itinerary.Segments)
-                    {
-
-                    <MudHighlighter Text="@segments.Departure.IataCode" HighlightedText="@_searchString" />
-                    }
-                }
-            </MudTd>
-
-            <MudTd DataLabel="Arrival">
-                @foreach (var itinerary in context.Itineraries)
-                    @foreach (var segments in itinerary.Segments)
-                    {
-
-                        <MudHighlighter Text="@segments.Arrival.IataCode" HighlightedText="@_searchString" />
-                    }
-                }
-            </MudTd>
-            <MudTd DataLabel="Total Price">
-               
-            </MudTd>
-     
-            <MudTd DataLabel="Actions" Style="text-align:right">
-                <MudMenu Label="@_l["Actions"]" Variant="Variant.Filled" DisableElevation="true" EndIcon="@Icons.Filled.KeyboardArrowDown" IconColor="Color.Secondary" Direction="Direction.Left" OffsetX="true">
-                    <MudMenuItem OnClick="(()=>ViewInformations(context.Id))">@_l["View Information"]</MudMenuItem>
-                   
+                    <MudHighlighter Text="@context.Duration" HighlightedText="@_searchString" />
+                </MudTd>
+                <MudTd DataLabel="Total Price">
+                    <MudHighlighter Text="@context.TotalPrice.ToString()" HighlightedText="@_searchString" />
+                </MudTd>
+                <MudTd DataLabel="Actions" Style="text-align:right">
+                    <MudMenu Label="@_l["Actions"]" Variant="Variant.Filled" DisableElevation="true" EndIcon="@Icons.Filled.KeyboardArrowDown" IconColor="Color.Secondary" Direction="Direction.Left" OffsetX="true">
+                        <MudMenuItem OnClick="(()=>ViewInformations(context.Id))">@_l["View Information"]</MudMenuItem>
                         <MudMenuItem OnClick="(()=>ReserveFlight(context.Id))">@_l["Reserve the flight"]</MudMenuItem>
-                        
-                </MudMenu>
-            </MudTd>
+                    </MudMenu>
+                </MudTd>
+            
         </RowTemplate>
         
         <PagerContent>
-            <TablePager />
+            <MudTablePager />
         </PagerContent>
     </MudTable>
 }
