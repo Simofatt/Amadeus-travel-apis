@@ -114,17 +114,35 @@
                             </MudItem>
                         </MudStack>
 
-                        @*Travel class*@
-                        <MudItem xs="12">
-                            <MudSelect For="@(() =>_travelRequest.TravelClass)" @bind-Value="@_travelRequest.TravelClass" Dense=true Style="width: 39vh" Label="@_l["Type de classe"]" T="string">
-                                @foreach (var item in _travelClass)
-                            {
-                                <MudSelectItem Style="width: 25vh" Value="@item" T="string">@item</MudSelectItem>
-                            }
-                        </MudSelect>
-                    </MudItem>
 
                     @*Nombre de personnes*@
+                   <MudStack Style="margin-top: 20px; width: 80vh;margin-left:35px;" Row=true Justify="Justify.FlexStart" Spacing="10" AlignItems="AlignItems.Center">
+                    <MudItem xs="12" md="6">
+                            <MudNumericField For="@(() =>_travelRequest.Adults)" @bind-Value="@_travelRequest.Adults" Style="width: 38vh;"  Label="@_l[" Nombre de personnes"]" Variant="Variant.Outlined" Min="0" Max="10" />
+                    </MudItem>
+                    <MudItem xs="12" md="6">
+                            <MudNumericField @bind-Value="@_travelRequest.Childreen" Style="width: 38vh;" Label="@_l["Nombre d'enfant"]" Variant="Variant.Outlined" Min="0" Max="10" />
+                    </MudItem>
+                    </MudStack>
+
+                        @*Travel class*@
+                         <MudStack Style="margin-top: 20px;width: 38vh;margin-left: 35px;" Row=true Justify="Justify.FlexStart" Spacing="11" AlignItems="AlignItems.Center">
+                       
+                            <MudSelect For="@(() =>_travelRequest.TravelClass)" @bind-Value="@_travelRequest.TravelClass" Dense=true Style="width: 38vh;" Label="@_l["Type de classe"]" T="string">
+                                @foreach (var item in _travelClass)
+                            {
+                                    <MudSelectItem Style="width: 38vh;" Value="@item" T="string">@item</MudSelectItem>
+                            }
+                            </MudSelect>
+                            <MudSelect For="@(() =>_travelRequest.NonStop)" @bind-Value="@_travelRequest.NonStop" Dense=true Style="width: 38vh;" Label="@_l["Escale"]" T="bool">
+                           
+                                <MudSelectItem Style="width: 38vh;" Value="true" T="bool">Oui</MudSelectItem>
+                                <MudSelectItem Style="width: 38vh;" Value="false" T="bool">Non</MudSelectItem>
+                        </MudSelect>
+                       
+                    </MudStack>
+
+                   
                  
                     <MudItem xs="12" Class="d-flex justify-center">
                         <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Disabled="@(!Validated)" Color="Color.Primary" Size="Size.Large" Style="width: 100%;">@_l["Search"]</MudButton>

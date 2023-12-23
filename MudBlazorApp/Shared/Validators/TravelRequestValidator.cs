@@ -22,7 +22,7 @@ namespace MudBlazorApp.Shared.Validators
             RuleFor(request => request.TravelClass)
                 .Must(x => !string.IsNullOrWhiteSpace(x)).WithMessage(x => localizer["Type de classe is required"]);
             RuleFor(request => request.NonStop)
-                .Must(x => !string.IsNullOrWhiteSpace(x)).WithMessage(x => localizer["Non Stop is required"]);
+                .Must(x => !string.IsNullOrWhiteSpace(x.ToString())).WithMessage(x => localizer["Non Stop is required"]);
             RuleFor(request => request.DateAller)
                 .Must(x => x != null).WithMessage(x => localizer["Date d'aller is required"]);
             RuleFor(request => request.DateRetour)

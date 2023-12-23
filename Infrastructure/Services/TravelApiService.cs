@@ -1,10 +1,13 @@
 ﻿using Application.Interfaces.Services;
 using Microsoft.Extensions.Configuration;
+using MudBlazor;
+using MudBlazor.Extensions;
 using MudBlazorApp.Shared.Requests;
 using MudBlazorApp.Shared.Response;
 using Synaplic.UniRH.Shared.Wrapper;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -55,9 +58,19 @@ namespace Infrastructure.Services
 
        public async Task<Result<TravelSearchResponse>> GetTravels(TravelRequest _travelRequest)
        {
-            if (_travelRequest.DateRetour == null)  _preparedUrl = $"/v2/shopping/flight-offers?originLocationCode={_travelRequest.Origin}&destinationLocationCode={_travelRequest.Destination}&departureDate={_travelRequest.DateAller}&adults={_travelRequest.Adults}&children={_travelRequest.Childreen}&travelClass={_travelRequest.TravelClass}&nonStop={_travelRequest.NonStop}&max=250";
-            
-            else  _preparedUrl = $"/v2/shopping/flight-offers?originLocationCode={_travelRequest.Origin}&destinationLocationCode={_travelRequest.Destination}&departureDate={_travelRequest.DateAller}&returnDate={_travelRequest.DateRetour}&adults={_travelRequest.Adults}&children={_travelRequest.Childreen}&travelClass={_travelRequest.TravelClass}&nonStop={_travelRequest.NonStop}&max=250";
+           // var dateA = _travelRequest.DateAller.HasValue ? _travelRequest.DateAller.Value.Date : (DateTime?)null;
+           // var dateR = _travelRequest.DateRetour.HasValue? _travelRequest.DateRetour.Value.Date : (DateTime?)null;
+
+            string dateA = (_travelRequest.DateAller.Value.Year + "-" + _travelRequest.DateAller.Value.Month + "-" + _travelRequest.DateAller.Value.Day).ToString();
+            var NonStop = _travelRequest.NonStop.ToString().ToLower();
+            if (_travelRequest.DateRetour.HasValue) _preparedUrl = $"/v2/shopping/flight-offers?originLocationCode={_travelRequest.Origin}&destinationLocationCode={_travelRequest.Destination}&departureDate={dateA.ToString()}&adults={_travelRequest.Adults}&children={_travelRequest.Childreen}&travelClass={_travelRequest.TravelClass}&nonStop={NonStop}&max=250";
+
+
+            else
+            {
+                string dateR = (_travelRequest.DateRetour.Value.Year + "-" + _travelRequest.DateRetour.Value.Month + "-" + _travelRequest.DateRetour.Value.Day).ToString();
+                _preparedUrl = $"/v2/shopping/flight-offers?originLocationCode={_travelRequest.Origin}&destinationLocationCode={_travelRequest.Destination}&departureDate={dateA.ToString()}&returnDate={dateR.ToString()}&adults={_travelRequest.Adults}&children={_travelRequest.Childreen}&travelClass={_travelRequest.TravelClass}&nonStop={NonStop}&max=250";
+            }
 
             // var message = new HttpRequestMessage(HttpMethod.Get, "/v2/shopping/flight-offers?originLocationCode=MAD&destinationLocationCode=BCN&departureDate=2023-12-22&returnDate=2023-12-24&adults=1&children=1&travelClass=ECONOMY&nonStop=false&max=250");
             var message = new HttpRequestMessage(HttpMethod.Get, _preparedUrl);

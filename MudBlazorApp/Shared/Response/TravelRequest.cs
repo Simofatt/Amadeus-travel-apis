@@ -16,7 +16,7 @@ namespace MudBlazorApp.Shared.Response
         public  string Destination { get; set; }
         public int Adults { get; set; } 
         public int? Childreen { get; set; }
-        public string NonStop { get; set; }
+        public bool NonStop { get; set; }
         public string TravelClass { get; set; }
     }
 }

@@ -37,6 +37,7 @@ namespace MudBlazorApp.Client.Pages.Flights.Component
 
             if (result)
             {
+                
                var success=  await GetFlightsAsync();
                 if (success)
                 {
@@ -56,7 +57,7 @@ namespace MudBlazorApp.Client.Pages.Flights.Component
             parameters.Add("_segmentList", _segmentList);
             parameters.Add("_travelPricings", _travelPricings);
             var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true, DisableBackdropClick = true };
-            var dialog = _dialogService.Show<FlightRequest>(_l["Search for a flight"], parameters, options);
+            var dialog = _dialogService.Show<SearchFlight>(_l["Search for a flight"], parameters, options);
             var result = await dialog.Result;
             if (!result.Cancelled)
             {
@@ -167,23 +168,20 @@ namespace MudBlazorApp.Client.Pages.Flights.Component
         }
 
 
-        private void SelectedOriginCountryChanged(string country)
+        private async Task SelectedOriginCountryChanged(string country)
         {
             _travelRequest.OriginCountry = country;
             _cities = _countries.FirstOrDefault(x => x.Name.Equals(country)).Cities;
-            foreach (var city in _cities)
-            {
-                Console.WriteLine(city);
-            }
+            await InvokeAsync(() => StateHasChanged());
+
+
         }
-        private void SelectedDestinationCountryChanged(string country)
+        private async Task SelectedDestinationCountryChanged(string country)
         {
             _travelRequest.DestinationCountry = country;
             _cities = _countries.FirstOrDefault(x => x.Name.Equals(country)).Cities;
-            foreach (var city in _cities)
-            {
-                Console.WriteLine(city);
-            }
+            await InvokeAsync(() => StateHasChanged());
+
         }
 
         public class Country
