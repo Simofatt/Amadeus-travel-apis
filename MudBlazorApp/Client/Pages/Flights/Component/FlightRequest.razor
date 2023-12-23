@@ -1,0 +1,137 @@
+﻿@page "/search-flight"
+@using MudBlazorApp.Shared.Response;
+
+
+<style>
+  
+    .mud-paper {
+        width: 126%;
+    }
+
+    /*TO STYLE THE BUTTONS */
+    .gap-11 {
+        gap: 150px;
+    }
+
+    .mud-card-actions {
+        display: flex;
+        position: relative;
+        top: 20px;
+        align-items: center;
+        justify-content: center;
+    }
+
+
+    .invocation-text {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+
+  
+
+    .mud-grid-spacing-xs-3 > .mud-grid-item {
+        padding: 32px;
+    }
+
+    /*MARGIN LEFT  THE BODY FOR THIS PAGE*/
+
+    body {
+        margin-left: 200px;
+    }
+
+    .pa-8 {
+        padding: 108px !important;
+    }
+
+    .gap-10 {
+        gap: 126px;
+    }
+</style>
+ <MudGrid>
+        <MudItem xs="12" sm="8" md="9">
+            <MudCard Elevation="15" Class="pa-8 rounded-xl" Style="height:926px; border: 2px solid #007bff;">
+
+            <EditForm Class="container" Model="@_travelRequest" OnValidSubmit="SubmitAsync">
+                <FluentValidationValidator @ref="_fluentValidationValidator" />
+
+                <MudGrid>
+                    
+                    <MudItem xs="12">
+                        <div class="d-flex justify-center">
+                            <MudText Typo="Typo.h4">@_l["Search for a Flight"]</MudText>
+                            </div>
+                        </MudItem>
+
+
+
+                        <MudText Color="Color.Info" Style="margin-top: 10px" Typo="Typo.subtitle1">@_l["Information de départ"]</MudText>
+                        <MudDivider></MudDivider>
+
+                        <MudStack Style="margin-top: 20px;width: 83vh;margin-left: 35px;" Row=true Justify="Justify.FlexStart" Spacing="11" AlignItems="AlignItems.Center">
+                            <MudSelect Style="width: 38vh;" Dense=true Variant="Variant.Text" Label="@_l["Pays de départ"]" T="string" Value="_travelRequest.OriginCountry" ValueChanged="SelectedOriginCountryChanged">
+                                @foreach (var item in _countries)
+                            {
+                                <MudSelectItem Style="width: 38vh;" Value="@item.Name" T="string">@item.Name</MudSelectItem>
+                            }
+                        </MudSelect>
+                        <MudSelect For="@(() => _travelRequest.Origin)" Dense=true Style="width: 38vh;" Variant="Variant.Text" Label="@_l["Ville de départ"]" T="string" @bind-Value="_travelRequest.Origin">
+                            @foreach (var item in _cities)
+                            {
+                                <MudSelectItem Style="width: 38vh;" T="string" Value="@item">@item</MudSelectItem>
+                            }
+                        </MudSelect>
+                    </MudStack>
+
+                    @*Retour                    <MudText Color="Color.Info" Style="margin-top: 20px" Typo="Typo.subtitle1">@_l["Information de retour"]</MudText>*@
+
+
+                    <MudStack Style="margin-top: 20px;width: 83vh;margin-left: 35px;" Row=true Justify="Justify.FlexStart" Spacing="11" AlignItems="AlignItems.Center">
+                            <MudSelect  Style="width: 38vh;" Dense=true Variant="Variant.Text"  Label="@_l["Pays de retour"]" T="string" Value="_travelRequest.DestinationCountry" ValueChanged="SelectedDestinationCountryChanged">
+                                @foreach (var item in _countries)
+                            {
+                                <MudSelectItem Style="width: 38vh;"  Value="@item.Name" T="string">@item.Name</MudSelectItem>
+                            }
+                        </MudSelect>
+                        <MudSelect For="@(() => _travelRequest.Destination)" Dense=true Style="width: 38vh;" Variant="Variant.Text" Label="@_l["Ville de retour"]" T="string" @bind-Value="_travelRequest.Destination">
+                            @foreach (var item in _cities)
+                            {
+                                <MudSelectItem Style="width: 38vh;" T="string" Value="@item">@item</MudSelectItem>
+                            }
+                        </MudSelect>
+                    </MudStack>
+
+
+                    @*DATES    <MudText Color="Color.Info" Style="margin-top: 20px" Typo="Typo.subtitle1">@_l["Selection de Dates"]</MudText>*@
+
+                    <MudStack Style="margin-top: 20px; width: 80vh;margin-left:35px;" Row=true Justify="Justify.FlexStart" Spacing="10" AlignItems="AlignItems.Center">
+                            <MudItem xs="12" md="6">
+                                <MudDatePicker For="@(() =>_travelRequest.DateAller)" Editable=true @bind-Date="@_travelRequest.DateAller" Style="width: 40vh;" Variant="Variant.Outlined" Label="@_l["Date Aller"]" />
+                            </MudItem>
+                            <MudItem xs="12" md="6">
+                                <MudDatePicker For="@(() =>_travelRequest.DateRetour)" Editable=true @bind-Date="@_travelRequest.DateRetour" Style="width: 40vh;" Variant="Variant.Outlined" Label="@_l["Date Retour"]" />
+                            </MudItem>
+                        </MudStack>
+
+                        @*Travel class*@
+                        <MudItem xs="12">
+                            <MudSelect For="@(() =>_travelRequest.TravelClass)" @bind-Value="@_travelRequest.TravelClass" Dense=true Style="width: 39vh" Label="@_l["Type de classe"]" T="string">
+                                @foreach (var item in _travelClass)
+                            {
+                                <MudSelectItem Style="width: 25vh" Value="@item" T="string">@item</MudSelectItem>
+                            }
+                        </MudSelect>
+                    </MudItem>
+
+                    @*Nombre de personnes*@
+                 
+                    <MudItem xs="12" Class="d-flex justify-center">
+                        <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Disabled="@(!Validated)" Color="Color.Primary" Size="Size.Large" Style="width: 100%;">@_l["Search"]</MudButton>
+                        </MudItem>
+                    </MudGrid>
+                </EditForm>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+    
