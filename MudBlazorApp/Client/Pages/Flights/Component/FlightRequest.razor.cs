@@ -1,8 +1,11 @@
 ﻿using Blazored.FluentValidation;
+using H.Core;
 using MudBlazor;
 using MudBlazorApp.Shared.Constant;
 using MudBlazorApp.Shared.Response;
 using Newtonsoft.Json;
+using static MudBlazor.Colors;
+using static MudBlazorApp.Client.Pages.Flights.Component.FlightRequest;
 
 
 namespace MudBlazorApp.Client.Pages.Flights.Component
@@ -21,7 +24,37 @@ namespace MudBlazorApp.Client.Pages.Flights.Component
         private List<Segment> _segmentList = new();
         private List<TravelerPricing> _travelPricings = new();
         private bool _search  =true ;
+        private bool _oneWay = true;
+     
 
+
+
+
+        private async Task<IEnumerable<string>> SearchCountry(string country)
+        {
+            await Task.Delay(5);
+
+          
+
+            if (string.IsNullOrEmpty(country))
+                return _countries.Select(country => country.Name);
+
+            return _countries
+                .Where(x => x.Name.Contains(country, StringComparison.InvariantCultureIgnoreCase))
+                .Select(country => country.Name);
+        }
+
+        private async Task<IEnumerable<string>> SearchDepartureCity(string city)
+        {
+            await Task.Delay(5);
+            if (string.IsNullOrEmpty(city))
+                return _cities.Select(city => city);
+
+            return _cities
+                .Where(x => x.Contains(city, StringComparison.InvariantCultureIgnoreCase))
+                .Select(country => country);
+
+        }
 
 
         protected override async Task OnInitializedAsync()
@@ -36,10 +69,11 @@ namespace MudBlazorApp.Client.Pages.Flights.Component
         {
             _search = false;
             var result = await GetIataCityCodeAsync();
+            
 
             if (result)
             {
-                
+                if (_travelRequest.Childreen is null) @_travelRequest.Childreen = 0; 
                var success=  await GetFlightsAsync();
                 if (success)
                 {
@@ -69,6 +103,7 @@ namespace MudBlazorApp.Client.Pages.Flights.Component
 
         }
 
+      
 
         private async Task<bool> GetFlightsAsync()
         {
@@ -92,8 +127,6 @@ namespace MudBlazorApp.Client.Pages.Flights.Component
                     {
                         _travelPricings.Add(pricing);
                     }
-                   
-
                 }
 
                 return true;

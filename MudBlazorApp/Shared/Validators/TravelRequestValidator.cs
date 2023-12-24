@@ -29,7 +29,10 @@ namespace MudBlazorApp.Shared.Validators
                .Must(x => x != null).WithMessage(x => localizer["Date de retour is required"]);
             RuleFor(request => request.Adults)
                .NotEmpty().WithMessage(localizer["Nombre de personnes is required"]);
-  
+
+            RuleFor(request => request.OneWay)
+            .NotEmpty().WithMessage(localizer["Choix Allez ou Allez/Retour is required"]);
+
         }
     }
 }

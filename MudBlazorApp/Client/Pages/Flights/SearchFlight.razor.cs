@@ -87,7 +87,7 @@ namespace MudBlazorApp.Client.Pages.Flights
         }
 
 
-     
+
 
         private async Task ViewInformations(string Id) {
 

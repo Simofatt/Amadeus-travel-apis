@@ -18,5 +18,6 @@ namespace MudBlazorApp.Shared.Response
         public int? Childreen { get; set; }
         public bool NonStop { get; set; }
         public string TravelClass { get; set; }
+        public bool OneWay { get; set; }
     }
 }

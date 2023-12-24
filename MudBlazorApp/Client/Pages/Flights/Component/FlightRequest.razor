@@ -68,57 +68,71 @@
 
                         <MudText Color="Color.Info" Style="margin-top: 10px" Typo="Typo.subtitle1">@_l["Information de départ"]</MudText>
                         <MudDivider></MudDivider>
-
+                        @if (!_oneWay)
+                    {
                         <MudStack Style="margin-top: 40px;width: 83vh;margin-left: 35px;" Row=true Justify="Justify.FlexStart" Spacing="11" AlignItems="AlignItems.Center">
-                            <MudSelect Style="width: 38vh;" Dense=true Variant="Variant.Text" Label="@_l["Pays de départ"]" T="string" Value="_travelRequest.OriginCountry" ValueChanged="SelectedOriginCountryChanged">
-                                @foreach (var item in _countries)
-                            {
-                                <MudSelectItem Style="width: 38vh;" Value="@item.Name" T="string">@item.Name</MudSelectItem>
-                            }
-                        </MudSelect>
-                        <MudSelect For="@(() => _travelRequest.Origin)" Dense=true Style="width: 38vh;" Variant="Variant.Text" Label="@_l["Ville de départ"]" T="string" @bind-Value="_travelRequest.Origin">
-                            @foreach (var item in _cities)
-                            {
-                                <MudSelectItem Style="width: 38vh;" T="string" Value="@item">@item</MudSelectItem>
-                            }
-                        </MudSelect>
+                            <MudSelect For="@(() =>_travelRequest.OneWay)" @bind-Value="@_oneWay" Dense=true Style="width: 88vh;" Label="@_l["Allez / Retour"]" T="bool">
+                           <MudSelectItem Style="width: 88vh;" Value="true" T="bool">Allez</MudSelectItem>
+                           <MudSelectItem Style="width: 88vh;" Value="false" T="bool">Allez/Retour</MudSelectItem>
+                    </MudSelect>
                     </MudStack>
+                    }
+
+                    @if (_oneWay)
+                    {
+                        <MudStack Style="margin-top: 40px;width: 83vh;margin-left: 35px;" Row=true Justify="Justify.FlexStart" Spacing="11" AlignItems="AlignItems.Center">
+                            <MudSelect For="@(() =>_travelRequest.OneWay)" @bind-Value="@_oneWay" Dense=true Style="width: 38vh;" Label="@_l["Allez / Retour"]" T="bool">
+                                <MudSelectItem Style="width: 38vh;" Value="true" T="bool">Allez</MudSelectItem>
+                                <MudSelectItem Style="width: 38vh;" Value="false" T="bool">Allez/Retour</MudSelectItem>
+                            </MudSelect>
+
+                            <MudItem xs="12" md="6">
+                                <MudDatePicker For="@(() =>_travelRequest.DateAller)" Editable=true @bind-Date="@_travelRequest.DateAller" Style="width: 38vh;" Variant="Variant.Outlined" Label="@_l["Date Aller"]" />
+                            </MudItem>
+
+                        </MudStack>
+                    }
+                        <MudStack Style="margin-top: 30px;width: 83vh;margin-left: 35px;" Row=true Justify="Justify.FlexStart" Spacing="11" AlignItems="AlignItems.Center">
+                            <MudAutocomplete Style="width: 38vh;" T="string" Label="Pays de départ" SearchFunc="@SearchCountry" ValueChanged="@SelectedOriginCountryChanged" />
+
+                            <MudAutocomplete Style="width: 38vh;" T="string" Label="Ville de départ" SearchFunc="@SearchDepartureCity" />
+                    
+                    </MudStack>
+                    
 
                     @*Retour                    <MudText Color="Color.Info" Style="margin-top: 20px" Typo="Typo.subtitle1">@_l["Information de retour"]</MudText>*@
 
 
                     <MudStack Style="margin-top: 20px;width: 83vh;margin-left: 35px;" Row=true Justify="Justify.FlexStart" Spacing="11" AlignItems="AlignItems.Center">
-                            <MudSelect  Style="width: 38vh;" Dense=true Variant="Variant.Text"  Label="@_l["Pays de retour"]" T="string" Value="_travelRequest.DestinationCountry" ValueChanged="SelectedDestinationCountryChanged">
-                                @foreach (var item in _countries)
-                            {
-                                <MudSelectItem Style="width: 38vh;"  Value="@item.Name" T="string">@item.Name</MudSelectItem>
-                            }
-                        </MudSelect>
-                        <MudSelect For="@(() => _travelRequest.Destination)" Dense=true Style="width: 38vh;" Variant="Variant.Text" Label="@_l["Ville de retour"]" T="string" @bind-Value="_travelRequest.Destination">
-                            @foreach (var item in _cities)
-                            {
-                                <MudSelectItem Style="width: 38vh;" T="string" Value="@item">@item</MudSelectItem>
-                            }
-                        </MudSelect>
+                           
+                        <MudAutocomplete Style="width: 38vh;" T="string" Label="Pays de départ" SearchFunc="@SearchCountry" ValueChanged="@SelectedDestinationCountryChanged" />
+                        <MudAutocomplete Style="width: 38vh;" T="string" Label="Ville de départ" SearchFunc="@SearchDepartureCity" />
                     </MudStack>
 
 
                     @*DATES    <MudText Color="Color.Info" Style="margin-top: 20px" Typo="Typo.subtitle1">@_l["Selection de Dates"]</MudText>*@
 
                     <MudStack Style="margin-top: 20px; width: 80vh;margin-left:35px;" Row=true Justify="Justify.FlexStart" Spacing="11" AlignItems="AlignItems.Center">
+                            
+
+                      
+
+                            @if (!_oneWay)
+                           {
                             <MudItem xs="12" md="6">
                                 <MudDatePicker For="@(() =>_travelRequest.DateAller)" Editable=true @bind-Date="@_travelRequest.DateAller" Style="width: 38vh;" Variant="Variant.Outlined" Label="@_l["Date Aller"]" />
                             </MudItem>
                             <MudItem xs="12" md="6">
                                 <MudDatePicker For="@(() =>_travelRequest.DateRetour)" Editable=true @bind-Date="@_travelRequest.DateRetour" Style="width: 38vh;" Variant="Variant.Outlined" Label="@_l["Date Retour"]" />
                             </MudItem>
+                            }
                         </MudStack>
 
 
                     @*Nombre de personnes*@
                    <MudStack Style="margin-top: 20px; width: 80vh;margin-left:35px;" Row=true Justify="Justify.FlexStart" Spacing="11" AlignItems="AlignItems.Center">
                     <MudItem xs="12" md="6">
-                            <MudNumericField For="@(() =>_travelRequest.Adults)" @bind-Value="@_travelRequest.Adults" Style="width: 38vh;"  Label="@_l[" Nombre de personnes"]" Variant="Variant.Outlined" Min="0" Max="10" />
+                            <MudNumericField For="@(() =>_travelRequest.Adults)" @bind-Value="@_travelRequest.Adults" Style="width: 38vh;"  Label="@_l["Nombre de personnes"]" Variant="Variant.Outlined" Min="0" Max="10" />
                     </MudItem>
                     <MudItem xs="12" md="6">
                             <MudNumericField @bind-Value="@_travelRequest.Childreen" Style="width: 38vh;" Label="@_l["Nombre d'enfant"]" Variant="Variant.Outlined" Min="0" Max="10" />
@@ -149,7 +163,7 @@
                         {
                             <MudProgressCircular Color="Color.Primary" Indeterminate="true" />
                         }else {
-                            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Disabled="@(!Validated)" Color="Color.Primary" Size="Size.Large" Style="width: 100%; margin-top:70px;">@_l["Search"]</MudButton>
+                            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Disabled="@(!Validated)" Color="Color.Primary" Size="Size.Large" Style="width: 100%; margin-top:50px;">@_l["Search"]</MudButton>
                         }
                         </MudItem>
                     </MudGrid>
