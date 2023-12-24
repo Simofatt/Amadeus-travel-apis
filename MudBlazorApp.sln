@@ -21,7 +21,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{FE5DDB
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MudBlazorApp.Shared", "MudBlazorApp\Shared\MudBlazorApp.Shared.csproj", "{AA2AF1ED-8044-4E8F-9BE3-18E26142F3B3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client.Infrastructure", "Client.Infrastructure\Client.Infrastructure.csproj", "{4607CEFC-D10A-4EF5-8B17-C6F3D0560869}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client.Infrastructure", "Client.Infrastructure\Client.Infrastructure.csproj", "{4607CEFC-D10A-4EF5-8B17-C6F3D0560869}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

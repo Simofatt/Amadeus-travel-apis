@@ -19,11 +19,18 @@
 @using System.Text.RegularExpressions
 @using System.ComponentModel.DataAnnotations
 @using MudBlazor.Services
+@using Synaplic.UniRH.Client.Infrastructure.ApiClients
+@using Blazored.FluentValidation;
+
 
 @* @inject FrontEndLocalizer _l *@
  
-@inject ILocalStorageService LocalStorage ;
+@inject ILocalStorageService _localStorage ;
 @inject IDialogService _dialogService;
 @inject NavigationManager _navigationManager;
-@inject ISnackbar Snackbar
+@inject ISnackbar _snackbar;
 @inject IStringLocalizer<Resource> _l ; 
+@inject IIataCodeClient _iataCodeClient ; 
+@inject ITravelApiClient _iTravelApiClient ;
+@inject HttpClient _httpClient;
+

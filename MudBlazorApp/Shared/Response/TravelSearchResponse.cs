@@ -33,11 +33,12 @@ namespace MudBlazorApp.Shared.Response
         public string LastTicketingDate { get; set; }
         public int NumberOfBookableSeats { get; set; }
         public List<Itinerary> Itineraries { get; set; }
+        public Price Price { get; set; }
         public List<TravelerPricing> TravelerPricings { get; set; }
     }
 
     public class Itinerary
-    {
+    {   
         public string Duration { get; set; }
         public List<Segment> Segments { get; set; }
     }

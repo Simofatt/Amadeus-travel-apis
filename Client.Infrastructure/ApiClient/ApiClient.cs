@@ -8,6 +8,7 @@
 
 using Infrastructure.ApiClient;
 using MudBlazorApp.Shared;
+using MudBlazorApp.Shared.Response;
 using Synaplic.UniRH.Client.Infrastructure.ApiClients;
 
 #pragma warning disable 108 // Disable "CS0108 '{derivedDto}.ToJson()' hides inherited member '{dtoBase}.ToJson()'. Use the new keyword if hiding was intended."
@@ -336,12 +337,12 @@ namespace Synaplic.UniRH.Client.Infrastructure.ApiClients
     {
         /// <returns>Success</returns>
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<TravelSearchResponseResult> GetTravelsAsync(string? origin, string? dateAller, string? dateRetour, string? destination, int? adults, int? childreen, string? nonStop, string? travelClass);
+        System.Threading.Tasks.Task<TravelSearchResponseResult> GetTravelsAsync(TravelRequest? body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<TravelSearchResponseResult> GetTravelsAsync(string? origin, string? dateAller, string? dateRetour, string? destination, int? adults, int? childreen, string? nonStop, string? travelClass, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<TravelSearchResponseResult> GetTravelsAsync(TravelRequest? body, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
@@ -383,51 +384,18 @@ namespace Synaplic.UniRH.Client.Infrastructure.ApiClients
 
         /// <returns>Success</returns>
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<TravelSearchResponseResult> GetTravelsAsync(string? origin, string? dateAller, string? dateRetour, string? destination, int? adults, int? childreen, string? nonStop, string? travelClass)
+        public virtual System.Threading.Tasks.Task<TravelSearchResponseResult> GetTravelsAsync(TravelRequest? body)
         {
-            return GetTravelsAsync(origin, dateAller, dateRetour, destination, adults, childreen, nonStop, travelClass, System.Threading.CancellationToken.None);
+            return GetTravelsAsync(body, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<TravelSearchResponseResult> GetTravelsAsync(string? origin, string? dateAller, string? dateRetour, string? destination, int? adults, int? childreen, string? nonStop, string? travelClass, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<TravelSearchResponseResult> GetTravelsAsync(TravelRequest? body, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append("api/TravelApi/GetTravels?");
-            if (origin != null)
-            {
-                urlBuilder_.Append(System.Uri.EscapeDataString("origin") + "=").Append(System.Uri.EscapeDataString(ConvertToString(origin, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
-            if (dateAller != null)
-            {
-                urlBuilder_.Append(System.Uri.EscapeDataString("DateAller") + "=").Append(System.Uri.EscapeDataString(ConvertToString(dateAller, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
-            if (dateRetour != null)
-            {
-                urlBuilder_.Append(System.Uri.EscapeDataString("DateRetour") + "=").Append(System.Uri.EscapeDataString(ConvertToString(dateRetour, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
-            if (destination != null)
-            {
-                urlBuilder_.Append(System.Uri.EscapeDataString("destination") + "=").Append(System.Uri.EscapeDataString(ConvertToString(destination, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
-            if (adults != null)
-            {
-                urlBuilder_.Append(System.Uri.EscapeDataString("adults") + "=").Append(System.Uri.EscapeDataString(ConvertToString(adults, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
-            if (childreen != null)
-            {
-                urlBuilder_.Append(System.Uri.EscapeDataString("childreen") + "=").Append(System.Uri.EscapeDataString(ConvertToString(childreen, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
-            if (nonStop != null)
-            {
-                urlBuilder_.Append(System.Uri.EscapeDataString("nonStop") + "=").Append(System.Uri.EscapeDataString(ConvertToString(nonStop, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
-            if (travelClass != null)
-            {
-                urlBuilder_.Append(System.Uri.EscapeDataString("travelClass") + "=").Append(System.Uri.EscapeDataString(ConvertToString(travelClass, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
-            urlBuilder_.Length--;
+            urlBuilder_.Append("api/TravelApi/GetTravels");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -435,7 +403,11 @@ namespace Synaplic.UniRH.Client.Infrastructure.ApiClients
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
-                    request_.Method = new System.Net.Http.HttpMethod("GET");
+                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(body, _settings.Value);
+                    var content_ = new System.Net.Http.StringContent(json_);
+                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
+                    request_.Content = content_;
+                    request_.Method = new System.Net.Http.HttpMethod("POST");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     PrepareRequest(client_, request_, urlBuilder_);

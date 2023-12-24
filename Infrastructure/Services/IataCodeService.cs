@@ -66,9 +66,16 @@ namespace Infrastructure.Services
                         if (!String.IsNullOrEmpty(responseBody))
                         {
                             var _iataCode = Newtonsoft.Json.JsonConvert.DeserializeObject<IataCodeResponse>(responseBody);
-                            return await Result<string>.SuccessAsync(_iataCode.Data[0].iataCode);
+                            if (_iataCode != null)
+                            {
+                                var data = _iataCode.Data[0].iataCode;
+                                return await Result<string>.SuccessAsync(data);
+                            }else
+                            {
+                                return await Result<string>.FailAsync("The response is null ");
+                            }
                         }
-                        return await Result<string>.FailAsync("The response is null ");
+                        return await Result<string>.FailAsync("The response is null");
                     }
                     else
                     {
