@@ -1,6 +1,7 @@
-# Onion Architecture Template for .NET Applications (Blazor WebAssembly & ASP.NET Core Web API)
+# Flight Travel Search Web Application (Blazor WebAssembly & ASP.NET Core Web API)
 
-This repository provides a robust Onion Architecture template for developing .NET applications, specifically tailored for Blazor WebAssembly projects in .NET 6 and ASP.NET Core Web API. Onion Architecture is a design pattern that promotes maintainability, testability, and scalability of your applications by organizing the codebase into layers.
+This repository provides a Flight travel search solution using Amadeus Api. endPoint of the api = https://developers.amadeus.com/self-service/category/flights/api-doc/flight-offers-search/api-reference . 
+This app uses Onion Architecture and it is a design pattern that promotes maintainability, testability, and scalability of your applications by organizing the codebase into layers.
 
 ## Features
 - **Blazor WebAssembly:** Utilize the power of Blazor WebAssembly to create rich and interactive front-end applications that run in the browser.
