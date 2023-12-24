@@ -3,7 +3,6 @@
     "MudBlazorApp.Server": {
       "commandName": "Project",
       "launchBrowser": true,
-      
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
@@ -14,7 +13,6 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
@@ -23,7 +21,6 @@
     "WSL": {
       "commandName": "WSL2",
       "launchBrowser": true,
-      //"launchUrl": "https://localhost:7234",
       "launchUrl": "swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
@@ -36,8 +33,8 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:4789",
-      "sslPort": 44362
+      "applicationUrl": "http://localhost:58600/",
+      "sslPort": 44314
     }
   }
 }
