@@ -58,13 +58,10 @@ namespace Infrastructure.Services
 
        public async Task<Result<TravelSearchResponse>> GetTravels(TravelRequest _travelRequest)
        {
-           // var dateA = _travelRequest.DateAller.HasValue ? _travelRequest.DateAller.Value.Date : (DateTime?)null;
-           // var dateR = _travelRequest.DateRetour.HasValue? _travelRequest.DateRetour.Value.Date : (DateTime?)null;
 
             string dateA = (_travelRequest.DateAller.Value.Year + "-" + _travelRequest.DateAller.Value.Month + "-" + _travelRequest.DateAller.Value.Day).ToString();
             var NonStop = _travelRequest.NonStop.ToString().ToLower();
-            if (_travelRequest.DateRetour.HasValue) _preparedUrl = $"/v2/shopping/flight-offers?originLocationCode={_travelRequest.Origin}&destinationLocationCode={_travelRequest.Destination}&departureDate={dateA.ToString()}&adults={_travelRequest.Adults}&children={_travelRequest.Childreen}&travelClass={_travelRequest.TravelClass}&nonStop={NonStop}&max=250";
-
+            if (!_travelRequest.DateRetour.HasValue) _preparedUrl = $"/v2/shopping/flight-offers?originLocationCode={_travelRequest.Origin}&destinationLocationCode={_travelRequest.Destination}&departureDate={dateA.ToString()}&adults={_travelRequest.Adults}&children={_travelRequest.Childreen}&travelClass={_travelRequest.TravelClass}&nonStop={NonStop}&max=250";
 
             else
             {

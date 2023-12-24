@@ -14,7 +14,7 @@ using System.Globalization;
 
 namespace MudBlazorApp.Client.Pages.Flights
 {
-    public partial class SearchFlight
+    public partial class FlightList
     {
 
 

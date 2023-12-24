@@ -15,7 +15,8 @@ namespace MudBlazorApp.Client.Pages.Flights.Component
         private FluentValidationValidator _fluentValidationValidator;
         private bool Validated => _fluentValidationValidator.Validate(options => { options.IncludeAllRuleSets(); });
         private List<Country> _countries = new List<Country>();
-        private List<string> _cities = new();
+        private List<string> _citiesArrival = new();
+        private List<string> _citiesDeparture = new();
         private bool _loaded;
         private List<string> _travelClass = new();
         private TravelRequest _travelRequest = new();
@@ -24,17 +25,21 @@ namespace MudBlazorApp.Client.Pages.Flights.Component
         private List<Segment> _segmentList = new();
         private List<TravelerPricing> _travelPricings = new();
         private bool _search  =true ;
-        private bool _oneWay = true;
-     
 
 
 
+
+        protected override async Task OnInitializedAsync()
+        {
+            await GetCountriesAsync();
+            GetTravelClassesAsync();
+            _travelRequest.OneWay = true;
+            _loaded = true;
+        }
 
         private async Task<IEnumerable<string>> SearchCountry(string country)
         {
-            await Task.Delay(5);
-
-          
+            await Task.Delay(1);
 
             if (string.IsNullOrEmpty(country))
                 return _countries.Select(country => country.Name);
@@ -46,24 +51,28 @@ namespace MudBlazorApp.Client.Pages.Flights.Component
 
         private async Task<IEnumerable<string>> SearchDepartureCity(string city)
         {
-            await Task.Delay(5);
+             
+            await Task.Delay(1);
             if (string.IsNullOrEmpty(city))
-                return _cities.Select(city => city);
+                return _citiesDeparture.Select(city => city);
 
-            return _cities
+            return _citiesDeparture
                 .Where(x => x.Contains(city, StringComparison.InvariantCultureIgnoreCase))
                 .Select(country => country);
 
         }
-
-
-        protected override async Task OnInitializedAsync()
+        private async Task<IEnumerable<string>> SearchArrivalCity(string city)
         {
-            await GetCountriesAsync();
-            GetTravelClassesAsync();
-            _loaded = true;
+             
+            await Task.Delay(1);
+            if (string.IsNullOrEmpty(city))
+                return _citiesArrival.Select(city => city);
+
+            return _citiesArrival
+                .Where(x => x.Contains(city, StringComparison.InvariantCultureIgnoreCase))
+                .Select(country => country);
+
         }
-     
 
         public async Task SubmitAsync()
         {
@@ -73,7 +82,10 @@ namespace MudBlazorApp.Client.Pages.Flights.Component
 
             if (result)
             {
-                if (_travelRequest.Childreen is null) @_travelRequest.Childreen = 0; 
+                if (_travelRequest.Childreen is null)
+                {
+                    _travelRequest.Childreen = 0;
+                }
                var success=  await GetFlightsAsync();
                 if (success)
                 {
@@ -209,7 +221,7 @@ namespace MudBlazorApp.Client.Pages.Flights.Component
         private async Task SelectedOriginCountryChanged(string country)
         {
             _travelRequest.OriginCountry = country;
-            _cities = _countries.FirstOrDefault(x => x.Name.Equals(country)).Cities;
+            _citiesDeparture= _countries.FirstOrDefault(x => x.Name.Equals(country)).Cities;
             await InvokeAsync(() => StateHasChanged());
 
 
@@ -217,7 +229,7 @@ namespace MudBlazorApp.Client.Pages.Flights.Component
         private async Task SelectedDestinationCountryChanged(string country)
         {
             _travelRequest.DestinationCountry = country;
-            _cities = _countries.FirstOrDefault(x => x.Name.Equals(country)).Cities;
+            _citiesArrival = _countries.FirstOrDefault(x => x.Name.Equals(country)).Cities;
             await InvokeAsync(() => StateHasChanged());
 
         }
