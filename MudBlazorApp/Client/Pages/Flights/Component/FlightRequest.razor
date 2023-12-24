@@ -94,7 +94,7 @@
                         <MudStack Style="margin-top: 10px;width: 83vh;margin-left: 35px;" Row=true Justify="Justify.FlexStart" Spacing="11" AlignItems="AlignItems.Center">
                             <MudAutocomplete Style="width: 38vh;" T="string" Immediate=@true Label="Pays de départ" SearchFunc="@SearchCountry" ValueChanged="@SelectedOriginCountryChanged" />
 
-                        <MudAutocomplete Immediate=@true For="@(() =>_travelRequest.Origin)" Style="width: 38vh;" T="string" @bind-Value="_travelRequest.Origin" Label="Ville de départ" SearchFunc="@SearchDepartureCity" />
+                        <MudAutocomplete  For="@(() =>_travelRequest.Origin)" Immediate=@true Style="width: 38vh;" T="string" @bind-Value="_travelRequest.Origin" Label="Ville de départ" SearchFunc="@SearchDepartureCity" />
                     
                     </MudStack>
                     
@@ -122,7 +122,7 @@
                                 <MudDatePicker For="@(() =>_travelRequest.DateAller)" Immediate=@true Editable=true @bind-Date="@_travelRequest.DateAller" Style="width: 38vh;" Variant="Variant.Outlined" Label="@_l["Date Aller"]" IsDateDisabledFunc="@((date) => date.Date <= DateTime.Now.Date)" />
                             </MudItem>
                             <MudItem xs="12" md="6">
-                                <MudDatePicker For="@(() =>_travelRequest.DateRetour)" Immediate=@true Editable=true @bind-Date="@_travelRequest.DateRetour" Style="width: 38vh;" Variant="Variant.Outlined" Label="@_l["Date Retour"]" IsDateDisabledFunc="@((date) => date.Date <= DateTime.Now.Date)" />
+                                <MudDatePicker Immediate=@true Editable=true @bind-Date="@_travelRequest.DateRetour" Style="width: 38vh;" Variant="Variant.Outlined" Label="@_l["Date Retour"]" IsDateDisabledFunc="@((date) => date.Date <= DateTime.Now.Date)" />
                             </MudItem>
                             }
                         </MudStack>
