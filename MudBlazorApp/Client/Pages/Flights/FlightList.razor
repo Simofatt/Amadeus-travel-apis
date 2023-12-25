@@ -14,7 +14,7 @@
 }
 else
 {
-    <MudTable Hover="true" Elevation="25" Items="_travelListDTO" Dense="@_dense" Filter="new Func<TravelListDTO, bool>(Search)" Bordered="@_bordered" Striped="@_striped" @bind-Value="flightOfferRequest">
+    <MudTable Hover="true" Elevation="25" Items="_travelListDTO" Dense="@true" Filter="new Func<TravelListDTO, bool>(Search)" Bordered="@true" Striped="@true" @bind-Value="flightOfferRequest">
         <ToolBarContent>
             <MudSpacer />
             <MudTextField @bind-Value="_searchString" Immediate="true" FullWidth="false" Placeholder="@_l["List of Flights"]" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0 mb-3"></MudTextField>

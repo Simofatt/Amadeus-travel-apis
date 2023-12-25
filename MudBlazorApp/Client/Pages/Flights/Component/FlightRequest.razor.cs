@@ -102,9 +102,6 @@ namespace MudBlazorApp.Client.Pages.Flights.Component
         {
             var parameters = new DialogParameters();
             parameters.Add("_travelList", _travelList);
-            parameters.Add("_itineraries", _itineraries);
-            parameters.Add("_segmentList", _segmentList);
-            parameters.Add("_travelPricings", _travelPricings);
             var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true, DisableBackdropClick = false };
             var dialog = _dialogService.Show<FlightList>(_l["Search for a flight"], parameters, options);
             var result = await dialog.Result;

@@ -71,8 +71,8 @@
                         <MudStack Style="margin-top: 40px;width: 83vh;margin-left: 35px;" Row=true Justify="Justify.FlexStart" Spacing="11" AlignItems="AlignItems.Center">
                             <MudSelect  @bind-Value="@_travelRequest.OneWay" Immediate=@true Dense=true Style="width: 91vh;" Label="@_l["Allez / Retour"]" T="bool">
                                 
-                                <MudSelectItem Style="width: 91vh;" Value="true" T="bool">Allez</MudSelectItem>
-                           <MudSelectItem Style="width: 91vh;" Value="false" T="bool">Allez/Retour</MudSelectItem>
+                                <MudSelectItem Style="width: 91vh;" Value="true" T="bool">Allez Simple</MudSelectItem>
+                           <MudSelectItem Style="width: 91vh;" Value="false" T="bool">Allez / Retour</MudSelectItem>
                     </MudSelect>
                     </MudStack>
                     }
@@ -99,13 +99,13 @@
                     </MudStack>
                     
 
-                    @*Retour                    <MudText Color="Color.Info" Style="margin-top: 20px" Typo="Typo.subtitle1">@_l["Information de retour"]</MudText>*@
+                    @*Retour <MudText Color="Color.Info" Style="margin-top: 20px" Typo="Typo.subtitle1">@_l["Information de retour"]</MudText>*@
 
 
                     <MudStack Style="margin-top: 20px;width: 83vh;margin-left: 35px;" Row=true Justify="Justify.FlexStart" Spacing="11" AlignItems="AlignItems.Center">
                            
-                        <MudAutocomplete Style="width: 38vh;" T="string" Label="Pays de départ" SearchFunc="@SearchCountry" ValueChanged="@SelectedDestinationCountryChanged" />
-                        <MudAutocomplete Immediate=@true For="@(() =>_travelRequest.Destination)" Style="width: 38vh;" T="string" @bind-Value="_travelRequest.Destination" Label="Ville de départ" SearchFunc="@SearchArrivalCity" />
+                        <MudAutocomplete Style="width: 38vh;" T="string" Label="Pays d'arrivé" SearchFunc="@SearchCountry" ValueChanged="@SelectedDestinationCountryChanged" />
+                        <MudAutocomplete Immediate=@true For="@(() =>_travelRequest.Destination)" Style="width: 38vh;" T="string" @bind-Value="_travelRequest.Destination" Label="Ville d'arrivée" SearchFunc="@SearchArrivalCity" />
                     </MudStack>
 
 
