@@ -24,8 +24,7 @@ namespace MudBlazorApp.Shared.Validators
            
             RuleFor(request => request.DateAller)
                 .Must(x => x != null).WithMessage(x => localizer["Date d'aller is required"]);
-            RuleFor(request => request.DateRetour)
-               .Must(x => x != null).WithMessage(x => localizer["Date de retour is required"]);
+    
             RuleFor(request => request.Adults)
                .NotEmpty().WithMessage(localizer["Nombre d'adultes is required"]);
 
